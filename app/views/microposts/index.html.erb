@@ -1,0 +1,11 @@
+<h1><%= "All posts from #{@user.name}" %></h1><br>
+
+<%= will_paginate(@microposts) %> 
+
+<table class="microposts" summary="User microposts">
+<% @microposts.each do |micropost| %>
+<%= render micropost %> 
+<% end %>
+</table>
+
+<%= will_paginate(@microposts) %> 

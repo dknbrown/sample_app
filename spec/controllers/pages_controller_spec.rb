@@ -17,6 +17,51 @@ describe PagesController do
       response.should have_selector("title",
                     :content => @base_title + "| Home")
     end
+    
+  describe "GET 'HOME' with signed in user" do
+    before(:each) do 
+      @user = test_sign_in(Factory(:user)) 
+      mp1 = Factory(:micropost, :user => @user, :content => "Foo bar")
+      @mp = [mp1]
+          end
+
+    it "should have a sidebar with a micropost count" do
+      get :home
+      response.should have_selector("span.microposts", 
+                    :content => @user.microposts.count.to_s)
+    end
+
+    it "should have proper plurazation 1 micropost" do
+     get :home
+      response.should have_selector("span.microposts", 
+                    :content => "1 micropost")
+
+    end
+
+    it "should have proper plurazation 2 microposts" do
+      mp2 = Factory(:micropost, :user => @user, :content => "Baz quux")
+      get :home
+      response.should have_selector("span.microposts", 
+                    :content => "microposts")
+
+    end
+
+    it "should paginate" do
+      50.times do
+          Factory(:micropost, :user => @user, :content => "Foo bar")
+      end
+      get :home
+      response.should have_selector("div.pagination")
+      response.should have_selector("span.disabled", :content => "Previous")
+      response.should have_selector("a", :href => "/?page=2",
+                                           :content => "2")
+        response.should have_selector("a", :href => "/?page=2",
+                                           :content => "Next")
+      
+    end
+      
+    
+  end    
 
   end
 
