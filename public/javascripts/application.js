@@ -2,8 +2,12 @@
 // This file is automatically included by javascript_include_tag :defaults
 
 MAX_CHAR_COUNT = 140;
+JQuery.ajaxSetup({
+  'beforeSend': fuction(xhr) {xhr.setRequestHeader("Accept", "text/javascript")}
+}
 
 jQuery(document).ready(function() {
+
     $("#micropost_content").keyup(function() {
         var text =  $("#micropost_content").val()
         var count = MAX_CHAR_COUNT - text.length;
@@ -14,4 +18,11 @@ jQuery(document).ready(function() {
           $("#char_count").css('color' , 'black')
           }
     });
+
+    $("#follow_form").submit(function(){
+        $.post($(this).attr("action"), $(this.serialize(), null, "script")
+                return false;
+    })
+
+
 });

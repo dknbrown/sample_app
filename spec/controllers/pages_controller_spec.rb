@@ -18,9 +18,13 @@ describe PagesController do
                     :content => @base_title + "| Home")
     end
     
-  describe "GET 'HOME' with signed in user" do
+  describe "GET 'Home' with signed in user" do
     before(:each) do 
-      @user = test_sign_in(Factory(:user)) 
+      @user = test_sign_in(Factory(:user))
+
+      other_user = Factory(:user, :email => Factory.next(:email))
+      other_user.follow!(@user)
+ 
       mp1 = Factory(:micropost, :user => @user, :content => "Foo bar")
       @mp = [mp1]
           end
@@ -60,10 +64,16 @@ describe PagesController do
       
     end
       
-    
+    it "should have the right follower/following counts" do
+        get :home
+        response.should have_selector("a", :href => following_user_path(@user),
+                                           :content => "0 following")
+        response.should have_selector("a", :href => followers_user_path(@user),
+                                           :content => "1 follower")
+    end
   end    
 
-  end
+end
 
   describe "GET 'contact'" do
     it "should be successful" do
