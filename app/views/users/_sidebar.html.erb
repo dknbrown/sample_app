@@ -1,0 +1,13 @@
+    <td class="sidebar round">
+      <%= render 'users_info' %>
+      <%= render 'shared/stats' %>
+      <% if !@users.nil? %>
+      <% unless @users.empty? %>
+        <% @users.each do |user| %>
+          <%= link_to gravatar_for(user, :size => 30), user %>
+        <% end %>
+      <% end %>
+      <% end %>
+
+    </td>
+

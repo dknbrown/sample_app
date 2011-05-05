@@ -71,6 +71,7 @@ describe PagesController do
         response.should have_selector("a", :href => followers_user_path(@user),
                                            :content => "1 follower")
     end
+
   end    
 
 end

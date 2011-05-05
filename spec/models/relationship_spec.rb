@@ -47,4 +47,16 @@ describe Relationship do
       @relationship.should_not be_valid
     end
   end
+
+  describe "destroy relastionships" do
+  
+
+    it "should remove dependent relationships when user destroyed" do
+      @follower.destroy
+      Relationship.find_by_id(@relationship.id).should be_nil
+    end
+
+
+``end
+
 end
